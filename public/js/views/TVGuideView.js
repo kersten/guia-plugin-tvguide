@@ -18,7 +18,9 @@ var TvGuideView = Backbone.View.extend({
 
     initialize: function () {
         "use strict";
-        var d = new XDate();
+
+        var d = new XDate(),
+            showSection;
 
         /*this.bind('TVGuidePagination:dateSwitched', function () {
             console.log('load new events');
@@ -38,8 +40,8 @@ var TvGuideView = Backbone.View.extend({
             }
         }*/
 
-        if (this.options.date == d.toString('dd.MM.yyyy')) {
-            var showSection = parseInt(d.toString('HH'));
+        if (this.options.date === d.toString('dd.MM.yyyy')) {
+            showSection = parseInt(d.toString('HH'));
 
             if (showSection >= 5 && showSection < 12) {
                 this.options.showSection = 'morning';
@@ -66,6 +68,8 @@ var TvGuideView = Backbone.View.extend({
     },
 
     showChannelsDialog: function () {
+        "use strict";
+
         // Load channels selection dialog
         var channelSelect = new ChannelSelectDialogView({
             model: new ChannelCollection(),
@@ -91,6 +95,8 @@ var TvGuideView = Backbone.View.extend({
     },
 
     slideUp: function (ev) {
+        "use strict";
+
         // Check if current section is hidden
         if (!$(ev.currentTarget).hasClass('sectionHidden')) {
             // Hide current section and set it as hidden
@@ -104,6 +110,8 @@ var TvGuideView = Backbone.View.extend({
     },
 
     load: function () {
+        "use strict";
+
         // Reference current view
         var _this = this;
 
@@ -116,11 +124,11 @@ var TvGuideView = Backbone.View.extend({
                 page: this.options.page
             }, success: function () {
                 // Render template
-                var template = _.template( $('#' + self.template).html(), {show: self.options.showSection} );
-                $(self.el).html( template );
+                var template = _.template($('#' + _this.template).html(), {show: _this.options.showSection});
+                $(_this.el).html(template);
 
                 // Get events
-                self.getEvents(function () {
+                _this.getEvents(function () {
                     this.render();
                 });
             }
@@ -128,6 +136,8 @@ var TvGuideView = Backbone.View.extend({
     },
 
     switchChannels: function (ev) {
+        "use strict";
+
         if ($(ev.currentTarget).hasClass('nextChannels')) {
             this.options.page++;
             GUIA.router.navigate('!/TVGuide/' + this.options.date.toString('dd.MM.yyyy') + '/' + this.options.page, true);
@@ -140,8 +150,9 @@ var TvGuideView = Backbone.View.extend({
     },
 
     getEvents: function (callback) {
-        // Reference current view
-        var self = this;
+        "use strict";
+
+        var _this = this;
 
         // Map over fetched channels
         async.map(this.tvguide, function (channel, callback) {
@@ -149,9 +160,9 @@ var TvGuideView = Backbone.View.extend({
             channel.events.fetch({
                 data: {
                     date: {
-                        year: self.options.date.toString('yyyy'),
-                        month: self.options.date.toString('MM'),
-                        day: self.options.date.toString('dd')
+                        year: _this.options.date.toString('yyyy'),
+                        month: _this.options.date.toString('MM'),
+                        day: _this.options.date.toString('dd')
                     }
                 }, success: function (events) {
                     // Finish step
@@ -163,20 +174,22 @@ var TvGuideView = Backbone.View.extend({
             var index = 0;
 
             // Map (sync) over fetched channels
-            async.mapSeries(self.tvguide, function (channel, callback) {
+            async.mapSeries(_this.tvguide, function (channel, callback) {
                 // Increment index by 1
                 index++;
 
                 // render current channel and events
-                self.renderEvents(channel, index, callback);
+                _this.renderEvents(channel, index, callback);
             }, function (err, result) {
                 // All rendering is finished, callback for applying generated template to #body div
-                callback.apply(self, []);
+                callback.apply(_this, []);
             });
         });
     },
 
     renderEvents: function (channel, index, callback) {
+        "use strict";
+
         // Clone the current date for manipulation
         var d = this.options.date.clone();
 
@@ -224,6 +237,8 @@ var TvGuideView = Backbone.View.extend({
     },
 
     render: function () {
+        "use strict";
+
         // Load the pagination (date) element
         var pagination = new TVGuidePaginationView({
             el: $(this.el).find('.pagination'),
@@ -276,6 +291,8 @@ var TvGuideView = Backbone.View.extend({
     },
 
     remove: function () {
+        "use strict";
+
         $(window).unbind('scroll');
         $(this.el).remove();
         return this;
