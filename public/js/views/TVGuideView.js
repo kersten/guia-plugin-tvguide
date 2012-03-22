@@ -64,7 +64,7 @@ var TvGuideView = Backbone.View.extend({
         // Parse date string to XDate object
         this.options.date = new XDate(this.options.date);
 
-        this.load();
+        //this.load();
     },
 
     showChannelsDialog: function () {
@@ -123,10 +123,6 @@ var TvGuideView = Backbone.View.extend({
             data: {
                 page: this.options.page
             }, success: function () {
-                // Render template
-                var template = _.template($('#' + _this.template).html(), {show: _this.options.showSection});
-                $(_this.el).html(template);
-
                 // Get events
                 _this.getEvents(function () {
                     this.render();
@@ -239,6 +235,12 @@ var TvGuideView = Backbone.View.extend({
     render: function () {
         "use strict";
 
+        var _this  = this;
+
+        // Render template
+        var template = _.template($('#' + _this.template).html(), {show: _this.options.showSection});
+        $(_this.el).html(template);
+
         // Load the pagination (date) element
         var pagination = new TVGuidePaginationView({
             el: $(this.el).find('.pagination'),
@@ -253,7 +255,7 @@ var TvGuideView = Backbone.View.extend({
         // Append the generate HTML to the #body div
         $('#body').html(this.el);
 
-        var top = $('#channels').offset().top - 40;
+       // var top = $('#channels').offset().top - 40;
         var floating = false;
 
         $(window).unbind('scroll');
@@ -285,7 +287,7 @@ var TvGuideView = Backbone.View.extend({
         });
 
         // Hide the loading spinner animation
-        GUIA.loadingOverlay('hide');
+        //GUIA.loadingOverlay('hide');
 
         return this;
     },
@@ -295,6 +297,7 @@ var TvGuideView = Backbone.View.extend({
 
         $(window).unbind('scroll');
         $(this.el).remove();
+
         return this;
     }
 });

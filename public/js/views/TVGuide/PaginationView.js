@@ -1,5 +1,5 @@
 var TVGuidePaginationView = Backbone.View.extend({
-    template: 'TVGuidePaginationTemplate',
+    template: 'TvGuidePaginationTemplate',
 
     events: {
         'click li:not(.active)': 'switchDate'
@@ -15,7 +15,7 @@ var TVGuidePaginationView = Backbone.View.extend({
     },
 
     render: function () {
-        var template = _.template( $('#' + this.template).html(), {active: this.options.date, page: this.options.page} );
+        var template = _.template($('#' + this.template).html(), {active: this.options.date, page: this.options.page});
         $(this.el).html(template);
 
         return this;
