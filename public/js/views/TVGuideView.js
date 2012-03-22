@@ -13,18 +13,16 @@ var TvGuideView = Backbone.View.extend({
         'TVGuidePagination:dateSwitched': 'load',
 
         'click .previousChannels': 'switchChannels',
-        'click .nextChannels': 'switchChannels',
+        'click .nextChannels': 'switchChannels'
     },
 
     initialize: function () {
-        var self = this;
+        "use strict";
+        var d = new XDate();
 
         /*this.bind('TVGuidePagination:dateSwitched', function () {
             console.log('load new events');
         });*/
-
-        // Create new XDate object
-        var d = new XDate();
 
         // Write date to options, if it is not set create one
         this.options.date = this.options.date || d.toString('dd.MM.yyyy');
@@ -107,7 +105,7 @@ var TvGuideView = Backbone.View.extend({
 
     load: function () {
         // Reference current view
-        var self = this;
+        var _this = this;
 
         // Load collection for channels
         this.tvguide = new TVGuideCollection();
