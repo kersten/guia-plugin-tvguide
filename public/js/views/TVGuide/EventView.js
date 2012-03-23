@@ -1,24 +1,33 @@
 var TVGuideEventView = Backbone.View.extend({
-    template: 'TVGuideEventTemplate',
+    template: 'TvGuideEventTemplate',
     tagName: 'div',
+    className: 'event',
 
     events: {
         'click td.event': 'showEventDetails'
     },
 
     showEventDetails: function (ev) {
-        $(this.el).popover('hide');
-        $('#body').scrollTop();
-        GUIA.router.navigate('!/Event/' + this.model.get('_id'), true);
+        "use strict";
+
+        console.log('SHOW EVENT');
+
+        //$(this.el).popover('hide');
+        //$('#body').scrollTop();
+        Backbone.history.navigate('!/Event/' + this.model.get('_id'), true);
     },
 
     render: function () {
-        var self = this;
+        "use strict";
 
-        var template = _.template( $('#' + this.template).html(), {event: this.model} );
+        var self = this,
+            template,
+            recordButton;
+
+        template = _.template($('#' + this.template).html(), {event: this.model});
         $(this.el).html(template);
 
-        var recordButton = new ButtonRecordView({
+        recordButton = new ButtonRecordView({
             model: this.model
         });
 

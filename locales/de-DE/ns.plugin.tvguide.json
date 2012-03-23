@@ -5,6 +5,24 @@
 
     "header": {
         "name": "TVGuide",
-        "title": "TV Guide <small>What's up today ..</small>"
+        "title": "TV Programm <small>Was läuft ..</small>"
+    },
+
+    "section": {
+        "morning": {
+            "title": "Vormittagsprogramm - 5 bis 12 Uhr"
+        },
+        "afternoon": {
+            "title": "Nachmittagsprogramm - 12 bis 18 Uhr"
+        },
+        "earlyevening": {
+            "title": "Vorabendprogramm - 18 bis 20 Uhr"
+        },
+        "evening": {
+            "title": "Abendprogramm - 20 bis 0 Uhr"
+        },
+        "night": {
+            "title": "Nachtprogramm - 0 bis 5 Uhr"
+        }
     }
 }

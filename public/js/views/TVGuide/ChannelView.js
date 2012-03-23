@@ -1,15 +1,19 @@
 var TVGuideChannelView = Backbone.View.extend({
     url: "tvguide/channel",
-    template: 'TVGuideChannelTemplate',
+    template: 'TvGuideChannelTemplate',
     tagName: 'div',
 
     showEventPopover: function (ev) {
+        "use strict";
+
+        var popover;
+
         if (!$(ev.currentTarget).hasClass('isPrime')) {
             if (ev.type == 'mouseenter') {
                 $(ev.currentTarget).popover('show');
                 $(ev.currentTarget).css({textDecoration: 'underline'});
             } else {
-                var popover = ev.currentTarget;
+                popover = ev.currentTarget;
 
                 this.popoverEl = popover;
                 this.popoverId = setTimeout(function () {
@@ -20,9 +24,11 @@ var TVGuideChannelView = Backbone.View.extend({
             }
         }
     },
-    
+
     render: function () {
-        var template = _.template( $('#' + this.template).html(), {channel: this.model} );
+        "use strict";
+
+        var template = _.template($('#' + this.template).html(), {channel: this.model});
         return template;
     }
 });

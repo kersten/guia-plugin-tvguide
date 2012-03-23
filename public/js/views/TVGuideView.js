@@ -9,9 +9,6 @@ var TvGuideView = Backbone.View.extend({
         // Bind click on the select channels button
         'click .selectChannels': 'showChannelsDialog',
 
-        // Bind click for changing date
-        'TVGuidePagination:dateSwitched': 'load',
-
         'click .previousChannels': 'switchChannels',
         'click .nextChannels': 'switchChannels'
     },
@@ -21,10 +18,6 @@ var TvGuideView = Backbone.View.extend({
 
         var d = new XDate(),
             showSection;
-
-        /*this.bind('TVGuidePagination:dateSwitched', function () {
-            console.log('load new events');
-        });*/
 
         // Write date to options, if it is not set create one
         this.options.date = this.options.date || d.toString('dd.MM.yyyy');
@@ -64,7 +57,7 @@ var TvGuideView = Backbone.View.extend({
         // Parse date string to XDate object
         this.options.date = new XDate(this.options.date);
 
-        //this.load();
+        this.load();
     },
 
     showChannelsDialog: function () {
@@ -125,7 +118,7 @@ var TvGuideView = Backbone.View.extend({
             }, success: function () {
                 // Get events
                 _this.getEvents(function () {
-                    this.render();
+                    this.renderData();
                 });
             }
         });
@@ -136,11 +129,11 @@ var TvGuideView = Backbone.View.extend({
 
         if ($(ev.currentTarget).hasClass('nextChannels')) {
             this.options.page++;
-            GUIA.router.navigate('!/TVGuide/' + this.options.date.toString('dd.MM.yyyy') + '/' + this.options.page, true);
+            Backbone.history.navigate('!/TvGuide/' + this.options.date.toString('dd.MM.yyyy') + '/' + this.options.page, true);
         } else {
             if (this.options.page != 1) {
                 this.options.page--;
-                GUIA.router.navigate('!/TVGuide/' + this.options.date.toString('dd.MM.yyyy') + '/' + this.options.page, true);
+                Backbone.history.navigate('!/TvGuide/' + this.options.date.toString('dd.MM.yyyy') + '/' + this.options.page, true);
             }
         }
     },
@@ -214,8 +207,8 @@ var TvGuideView = Backbone.View.extend({
                 // Check if events start and stoptime matching the current section time
                 if (event.get('start') >= starttime && event.get('start') < stoptime) {
                     // Get the hour div from current section
-                    var sectionDiv = $(el).children('div[data-hour=\'' + parseInt(event.start_time().split(':')[0]) +'\']');
-                    var eventDiv = $(sectionDiv).children(':nth-child(' + index + ')');
+                    var sectionDiv = $(el).children('div[data-hour=\'' + parseInt(event.start_time().split(':')[0]) +'\']'),
+                        eventDiv = $(sectionDiv).children(':nth-child(' + index + ')');
 
                     // Load the event view
                     var eventView = new TVGuideEventView({
@@ -232,14 +225,10 @@ var TvGuideView = Backbone.View.extend({
         callback(null, null);
     },
 
-    render: function () {
+    renderData: function () {
         "use strict";
 
         var _this  = this;
-
-        // Render template
-        var template = _.template($('#' + _this.template).html(), {show: _this.options.showSection});
-        $(_this.el).html(template);
 
         // Load the pagination (date) element
         var pagination = new TVGuidePaginationView({
@@ -252,10 +241,7 @@ var TvGuideView = Backbone.View.extend({
         // Render the pagination (date) element
         pagination.render();
 
-        // Append the generate HTML to the #body div
-        $('#body').html(this.el);
-
-       // var top = $('#channels').offset().top - 40;
+        var top = $('#channels').offset().top - 40;
         var floating = false;
 
         $(window).unbind('scroll');
@@ -285,9 +271,12 @@ var TvGuideView = Backbone.View.extend({
                 $('#channels_tmp').remove();
             }
         });
+    },
 
-        // Hide the loading spinner animation
-        //GUIA.loadingOverlay('hide');
+    render: function () {
+        // Render template
+        var template = _.template($('#' + this.template).html(), {show: this.options.showSection});
+        $(this.el).html(template);
 
         return this;
     },

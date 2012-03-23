@@ -1,5 +1,5 @@
 var TVGuidePopoverView = Backbone.View.extend({
-    template: 'TVGuidePopoverTemplate',
+    template: 'TvGuidePopoverTemplate',
 
     events: {
         'hover .popover': 'handlePopover',
@@ -8,13 +8,17 @@ var TVGuidePopoverView = Backbone.View.extend({
     },
 
     initialize: function () {
-        var self = this;
+        "use strict";
+
+        var self = this,
+            recordView,
+            template;
         
-        var recordView = new EventRecordButtonView({
+        recordView = new EventRecordButtonView({
             model: this.model
         });
 
-        var template = _.template($('#' + this.template).html(), {event: this.model});
+        template = _.template($('#' + this.template).html(), {event: this.model});
         
         $(this.el).popover({
             title: function () {
@@ -33,16 +37,20 @@ var TVGuidePopoverView = Backbone.View.extend({
     },
 
     handlePopover: function (ev) {
+        "use strict";
+
         if (ev.type == 'mouseenter') {
             clearTimeout(this.timerId);
         } else {
             this.hide();
         }
     },
-    
+
     switchRecordImage: function (ev) {
-        var image = '';
-        var image_record = '-2';
+        "use strict";
+
+        var image = '',
+            image_record = '-2';
 
         if (this.model.get('timer_active')) {
             image = '-2';
@@ -61,36 +69,45 @@ var TVGuidePopoverView = Backbone.View.extend({
     },
 
     recordEvent: function () {
+        "use strict";
     },
 
     show: function () {
+        "use strict";
+
         $(this.el).popover('show');
     },
 
     hide: function () {
-        var self = this;
+        "use strict";
+
+        var _this = this,
+            transitionEnd;
 
         this.timerId = setTimeout(function () {
-            if ( $.support.transition ) {
-              transitionEnd = "TransitionEnd"
-              if ( $.browser.webkit ) {
-                transitionEnd = "webkitTransitionEnd"
-              } else if ( $.browser.mozilla ) {
-                transitionEnd = "transitionend"
-              } else if ( $.browser.opera ) {
-                transitionEnd = "oTransitionEnd"
-              }
+            if ($.support.transition) {
+                transitionEnd = "TransitionEnd";
+
+                if ($.browser.webkit) {
+                    transitionEnd = "webkitTransitionEnd";
+                } else if ($.browser.mozilla) {
+                    transitionEnd = "transitionend";
+                } else if ($.browser.opera) {
+                    transitionEnd = "oTransitionEnd";
+                }
             }
 
-            $(self.el).bind(transitionEnd, function () {
-                self.options.callback.call();
+            $(_this.el).bind(transitionEnd, function () {
+                _this.options.callback.call();
             });
 
-            $(self.el).popover('hide');
+            $(_this.el).popover('hide');
         }, 100);
     },
 
     render: function () {
+        "use strict";
+
         return this;
     }
 });

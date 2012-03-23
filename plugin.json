@@ -14,5 +14,23 @@
         "path": "!/TvGuide",
         "action": "tvguideRoute",
         "view": "TvGuideView"
+    }, {
+        "needsLogin": true,
+        "path": "!/TvGuide/:date",
+        "action": "tvguideDateRoute",
+        "view": "TvGuideView",
+        "parameter": [{
+            "name": "date"
+        }]
+    }, {
+        "needsLogin": true,
+        "path": "!/TvGuide/:date/:page",
+        "action": "tvguideDatePageRoute",
+        "view": "TvGuideView",
+        "parameter": [{
+            "name": "date"
+        },{
+            "name": "page"
+        }]
     }]
 }
