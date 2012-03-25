@@ -5,7 +5,7 @@
 
     <& for (i = 0; i < 12; i++) { &>
     <li style="cursor: pointer" class="<&= (active == d.addDays(1).toString('dd.MM.yyyy')) ? 'active' : '' &>" data-date="<&= d.toString('dd.MM.yyyy') &>" data-page="<&= page &>">
-        <a style=""><&= d.toString('dd.MM') &></a>
+        <a><&= d.toString('dd.MM') &></a>
     </li>
     <& } &>
 </ul>

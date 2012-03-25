@@ -19,19 +19,13 @@ var TvGuideView = Backbone.View.extend({
         var d = new XDate(),
             showSection;
 
+        if (parseInt(d.toString('HH')) >= 0 && parseInt(d.toString('HH')) < 5) {
+            d.addDays(-1);
+            console.log(d.toString('dd.MM.yyyy'));
+        }
+
         // Write date to options, if it is not set create one
         this.options.date = this.options.date || d.toString('dd.MM.yyyy');
-
-        /*if (parseInt(d.toString('HH')) >= 0 && parseInt(d.toString('HH')) < 5) {
-            var checkNext = new XDate(this.options.date).addDays(-1).toString('dd.MM.yyyy');
-            var yesterday = d.clone().addDays(-1).toString('dd.MM.yyyy');
-
-            console.log(checkNext, yesterday);
-
-            if (checkNext == yesterday) {
-                this.options.date = yesterday;
-            }
-        }*/
 
         if (this.options.date === d.toString('dd.MM.yyyy')) {
             showSection = parseInt(d.toString('HH'));

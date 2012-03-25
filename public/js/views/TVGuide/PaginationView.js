@@ -10,17 +10,9 @@ var TVGuidePaginationView = Backbone.View.extend({
 
         this.date = new XDate();
 
-        /*if (parseInt(this.date.toString('HH')) >= 0 && parseInt(this.date.toString('HH')) < 5) {
-            var checkNext = new XDate(this.options.date).toString('dd.MM.yyyy');
-            var yesterday = this.date.clone().addDays(-1);
-
-            console.log(checkNext, yesterday.toString('dd.MM.yyyy'));
-
-            if (checkNext == yesterday.toString('dd.MM.yyyy')) {
-                this.options.date = this.date.clone().toString('dd.MM.yyyy');
-                this.date.addDays(-1);
-            }
-        }*/
+        if (parseInt(this.date.toString('HH')) >= 0 && parseInt(this.date.toString('HH')) < 5) {
+            this.date.addDays(-1);
+        }
     },
 
     switchDate: function (ev) {
